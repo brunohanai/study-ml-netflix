@@ -34,4 +34,4 @@ X_pred = sp.sparse.hstack((
 ))
 # print X_pred.toarray()
 
-print le.inverse_transform(clf.predict(X_pred))
+print "\nPrevisao ---> ", le.inverse_transform(clf.predict(X_pred))
