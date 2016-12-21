@@ -1,12 +1,14 @@
 import scipy as sp
 import pandas
 import cPickle as pickle
+import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
 from text_functions import split_and_adjust
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import StratifiedKFold
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import accuracy_score
+from utils import plot_feature_importances
 
 dataset = pandas.read_csv('var/data/data.csv')
 
@@ -18,7 +20,6 @@ label_encoder.fit(available_types)
 # y = dataset['label']
 y = label_encoder.transform(dataset['label'])
 pickle.dump(label_encoder, open('var/pickle/last_label_encoder.pkl', 'w'))
-print y
 
 
 # label_encoder da feature TYPE
@@ -52,12 +53,14 @@ X = sp.sparse.hstack((
     # actor_cvt.fit_transform(feature_actors),
     # country_cvt.fit_transform(feature_countries),
     # language_cvt.fit_transform(feature_languages),
-    # feature_imdb_rating,
+    feature_imdb_rating,
     # feature_runtime,
     # feature_type,
     # feature_year
 ), format='csr')
 
+from sklearn.utils import shuffle
+X, y = shuffle(X, y, random_state=7)
 
 # salvar ultima versao do CountVectorizer
 pickle.dump(genre_cvt, open('var/pickle/last_genre_cvt.pkl', 'w'))
@@ -74,10 +77,11 @@ features_test, labels_test = X[test_indices], y[test_indices]
 
 
 # treinar classifier
-clf = RandomForestClassifier()
+clf = RandomForestClassifier(random_state=7)
 clf.fit(features_train, labels_train)
 pred = clf.predict(features_test)
 print "Accuracy:", accuracy_score(pred, labels_test)
+# plot_feature_importances(clf.feature_importances_, 'Decision Tree', np.array(feature_genres))  # exibir features com maior importancia
 
 
 # salvar classifier
