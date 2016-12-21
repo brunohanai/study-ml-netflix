@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import csv
+from pandas import read_csv
 
 
 def insert_data(label, omdb_info):
@@ -23,3 +24,9 @@ def adjust_omdb_info(omdb_info):
     omdb_info['year'] = omdb_info['year'].split('–')[0]
 
     return omdb_info
+
+
+def title_is_in_database(title):
+    d = read_csv('var/data/data.csv')
+
+    return title in d['title'].unique()
