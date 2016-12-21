@@ -28,7 +28,7 @@ X_pred = sp.sparse.hstack((
     # actor_cvt.transform([split_and_adjust(omdb_info['actors'])]),
     # country_cvt.transform([split_and_adjust(omdb_info['country'])]),
     # language_cvt.transform([split_and_adjust(omdb_info['language'])]),
-    # float(omdb_info['imdb_rating']),
+    float(omdb_info['imdb_rating']),
     # int(omdb_info['runtime'].split()[0]),
     # tle.transform([omdb_info['type']])[0]
 ))
