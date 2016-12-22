@@ -81,7 +81,7 @@ clf = RandomForestClassifier(random_state=7)
 clf.fit(features_train, labels_train)
 pred = clf.predict(features_test)
 print "Accuracy:", accuracy_score(pred, labels_test)
-# plot_feature_importances(clf.feature_importances_, 'Decision Tree', np.array(feature_genres))  # exibir features com maior importancia
+# plot_feature_importances(clf.feature_importances_, 'Decision Tree', np.array(feature_actors))  # exibir features com maior importancia
 
 
 # salvar classifier
@@ -100,3 +100,16 @@ pickle.dump(clf, open('var/pickle/last_clf.pkl', 'w'))
 # plt.scatter(feature_type, y, color='red')
 # plt.show()
 
+# confusion matrix
+from sklearn.metrics import confusion_matrix
+import matplotlib.pyplot as plt
+confusion_mat = confusion_matrix(labels_test, pred)
+plt.imshow(confusion_mat, interpolation='nearest', cmap=plt.cm.gray)
+plt.title('Confusion matrix')
+plt.colorbar()
+tick_marks = np.arange(3)
+plt.xticks(tick_marks, tick_marks)
+plt.yticks(tick_marks, tick_marks)
+plt.ylabel('True label')
+plt.xlabel('Predicted label')
+# plt.show()
